@@ -314,7 +314,7 @@ let f_equal_tac () = Utils.ltac_apply "Tactics.f_equal_tac" []
 let simpl_sigma_tac () = Utils.ltac_apply "Tactics.simpl_sigma" []
 let generalize_proofs_tac () = Utils.ltac_apply "Tactics.generalize_proofs" []
 let unfold_local_defs_tac () = Utils.ltac_apply "Tactics.unfold_local_defs" []
-
+let snipe () = Utils.ltac_apply "Tactic.snipe_tac" []
 (*****************************************************************************************)
 
 let eq_ind (mi1, i1) (mi2, i2) = i1 = i2 && QMutInd.equal (Global.env ()) mi1 mi2

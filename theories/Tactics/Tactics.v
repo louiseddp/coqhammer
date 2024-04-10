@@ -8,6 +8,7 @@ Declare ML Module "coq-hammer-tactics.lib".
 Require Import Lia.
 Require Import Program.Equality.
 From Hammer Require Import Tactics.Reflect.
+From Sniper Require Import Sniper.
 
 Create HintDb shints discriminated.
 
@@ -1052,6 +1053,7 @@ Ltac lia_tac := lia.
 Ltac f_equal_tac := f_equal.
 Ltac firstorder_tac := solve [ firstorder (trysolve; auto) ].
 Ltac firstorder_nolia_tac := solve [ firstorder (trysolve_nolia; auto) ].
+Ltac snipe_tac := snipe.
 
 Declare ML Module "coq-hammer-tactics.plugin".
 

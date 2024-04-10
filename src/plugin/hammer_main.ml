@@ -327,17 +327,17 @@ let check_goal_prop gl =
 (***************************************************************************************)
 
 let run_tactics deps defs inverts msg_success msg_fail msg_batch =
-  let mkopts opts =
+  (* let mkopts opts =
     let opts =
       if defs <> [] then { opts with s_unfolding = SSome defs } else opts
     in
     if inverts <> [] then { opts with s_inversions = SSome inverts } else opts
-  in
+  in *)
   let use_deps =
     Tactics.generalize deps <*>
       Tacticals.tclDO (List.length deps) (Tactics.intro_move None Logic.MoveFirst)
   in
-  let rhauto =
+  (* let rhauto =
     usolve (use_deps <*> sauto (mkopts (hauto_s_opts ())))
   and rqauto =
     usolve (use_deps <*> sauto (mkopts (qauto_s_opts ())))
@@ -530,13 +530,15 @@ let run_tactics deps defs inverts msg_success msg_fail msg_batch =
     usolve (use_deps <*>
               sinit (mkopts (hauto_s_opts ())) <*>
               Utils.ltac_apply "Reconstr.qrrexhaustive1" [])
+  and *)
+  let snipe = usolve (use_deps <*> snipe ()) 
   in
-  let pretactics =
-    [ (reauto, "srun eauto"); (rcongruence, "scongruence");
-      (rtrivial, "strivial"); (rfirstorder, "sfirstorder") ]
+  let pretactics = []
+    (* [ (reauto, "srun eauto"); (rcongruence, "scongruence");
+      (rtrivial, "strivial"); (rfirstorder, "sfirstorder") ] *)
   in
   let tactics = [
-      [ (rhauto, "hauto");
+      (* [ (rhauto, "hauto");
         (rqauto, "qauto");
         (rhfcrush, "hfcrush");
         (rhlqauto, "hauto lq: on")
@@ -570,14 +572,17 @@ let run_tactics deps defs inverts msg_success msg_fail msg_batch =
         (rhbfcrush_nodrew, "hfcrush brefl: on drew: off");
         (rhbauto_nodrew, "hauto brefl: on drew: off");
         (rhbauto_norew, "hauto brefl: on drew: off")
-      ];
+      ]; *)
+      [
+        (snipe, "snipe")
+      ]
   ]
   in
   let tactics =
     catch_errors
       begin fun () ->
-        tactics @
-          [ [ (rreasy (), "srun Reconstr.rreasy");
+        tactics @ []
+          (* [ [ (rreasy (), "srun Reconstr.rreasy");
               (rrsimple (), "srun Reconstr.rrsimple");
               (rrcrush (), "srun Reconstr.rrcrush");
               (rryelles4 (), "srun Reconstr.rryelles4") ];
@@ -588,7 +593,7 @@ let run_tactics deps defs inverts msg_success msg_fail msg_batch =
             [ (rryelles6 (), "srun Reconstr.rryelles6");
               (rrhreconstr6 (), "srun Reconstr.rrhreconstr6");
               (rrhrauto4 (), "srun Reconstr.rrhrauto4");
-              (rrexhaustive1 (), "srun Reconstr.rrexhaustive1") ] ]
+              (rrexhaustive1 (), "srun Reconstr.rrexhaustive1") ] ] *)
       end
       (fun _ -> tactics)
   in

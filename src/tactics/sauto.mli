@@ -71,6 +71,7 @@ val qblast : s_opts -> unit Proofview.tactic
 val scongruence : s_opts -> unit Proofview.tactic
 val sfirstorder : s_opts -> unit Proofview.tactic
 val strivial : s_opts -> unit Proofview.tactic
+val snipe : unit -> unit Proofview.tactic
 
 val logic_constants : Constant.t list
 val logic_inductives : inductive list
